@@ -1,0 +1,21 @@
+<div class=" container">
+    <div class="label">
+        <label for="car">Search Car:</label>
+    </div>
+
+    <div>
+        <input id="car" #carSearchInput placeholder="Search Car By Name" class="form-control" type="text" autocomplete="off" (click)="showSearches = true">
+    </div>
+
+    <div class="card" *ngIf="showSearches">
+        <div class="search">
+            <div *ngFor="let car of searchedCars; trackBy: trackById" (click)="setCarName(car)" class="search-result">
+                {{car}}
+            </div>
+        </div>
+
+        <p *ngIf="searchedCars && !searchedCars.length && !isLoading">No Car found</p>
+        <p *ngIf="isLoading">Searching cars...</p>
+    </div>
+
+</div>
