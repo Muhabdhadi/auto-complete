@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild} from '@angular/core';
 import {debounceTime, distinctUntilChanged, fromEvent, map, Observable, of, switchMap, tap} from "rxjs";
 
 @Component({
@@ -6,13 +6,13 @@ import {debounceTime, distinctUntilChanged, fromEvent, map, Observable, of, swit
     templateUrl: './auto-complete.component.html',
     styleUrls: ['./auto-complete.component.scss']
 })
-export class AutoCompleteComponent implements AfterViewInit {
+export class AutoCompleteComponent implements AfterViewInit, OnDestroy {
     @ViewChild('carSearchInput') carInput!: ElementRef;
     cars: any = [];
     showSearches: boolean = false;
     isLoading: boolean = false;
     searchedCars: any = [];
-    @Output() carNameSelected = new EventEmitter<{name: string}>();
+    @Output() carNameSelected: EventEmitter<{ name: string }> = new EventEmitter<{name: string}>();
     constructor() {
         this.cars = [
             "Toyota Corolla", "Honda Accord", "Ford F-150", "Chevrolet Silverado",
@@ -25,9 +25,11 @@ export class AutoCompleteComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.carSearch();
 
-        document.addEventListener('click', () => {
-            this.showSearches = false;
-        });
+        document.addEventListener('click', this.hideSearch);
+    }
+
+    ngOnDestroy() {
+        document.removeEventListener('click', this.hideSearch);
     }
 
     carSearch() {
@@ -68,6 +70,10 @@ export class AutoCompleteComponent implements AfterViewInit {
 
     trackById(index: number,item: any):void{
         return item._id;
+    }
+
+    hideSearch() {
+        this.showSearches = false;
     }
 
 }
