@@ -5,6 +5,7 @@ import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 })
 export class UnlessDirective {
     private hasView = false;
+
     @Input() set appUnless(condition: boolean) {
         if (!condition && !this.hasView) {
             this.viewContainer.createEmbeddedView(this.templateRef);
@@ -14,6 +15,7 @@ export class UnlessDirective {
             this.hasView = false;
         }
     }
+
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
