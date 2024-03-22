@@ -1,6 +1,18 @@
 <div class="container">
+
+    <!-- This is a test for the custom structural directive *appUnless -->
+    <div *appUnless="true" class="row">
+        <div class="col-md-12">
+            <p>
+                App Unless
+            </p>
+        </div>
+    </div>
+
+    <!-- This is the template for auto complete feature -->
+
     <div class="row">
-        <div class="col-xl-4" style="position: relative; left: 33%;margin-top: 2%">
+        <div class="col-xl-4 selected-car">
             <div *ngIf="car">
                 Your Selected Car: <strong>{{car}}</strong>
             </div>
